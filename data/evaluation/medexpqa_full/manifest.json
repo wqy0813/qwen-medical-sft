@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "dataset": "HiTZ/MedExpQA",
+  "source_revision": "main",
+  "source_snapshot": "78b57699763e00e38acd550f28de24d8a65f1643",
+  "purpose": "evaluation_only",
+  "migration_status": "copied_and_sha256_verified",
+  "total_rows": 618,
+  "splits": {
+    "train": {
+      "rows": 430,
+      "composition": [
+        {
+          "file": "medexpqa_train_candidates_512.jsonl",
+          "rows": 378,
+          "sha256": "b18e4ae36645c70fb7e78e59191b1aa362608e36f575915d4a14728dbc413d54"
+        },
+        {
+          "file": "medexpqa_over_512_isolated.jsonl",
+          "rows": 31,
+          "sha256": "88856310a05c5f68b44bb89e585a0370d0cf4721005d03045eb9d15e9c6195bb"
+        },
+        {
+          "file": "medexpqa_quality_excluded.jsonl",
+          "rows": 21,
+          "sha256": "be376abbe378e29b65301fc1ac7df4bc611e5082e24b6096b31b006098ef2f1a"
+        }
+      ],
+      "cross_split_train_exclusions": {
+        "rows": 4,
+        "source_file": "data/derived/medexpqa_final_20261101/medexpqa_cross_split_isolated.jsonl",
+        "sha256": "8cf56b2e0d122830c905363afa206d72cba9f9982ed8d88c4d06398f95a33add"
+      },
+      "evaluation_policy": "Evaluate all 430 retained Train records, including overlength and quality-excluded records. Do not use training-admission filters to remove evaluation records."
+    },
+    "validation": {
+      "rows": 63,
+      "file": "validation_preserved.jsonl",
+      "sha256": "737ef51fc0b4ac4b611f6d5e23db000d31e7e9aed58437e8a16c0396f63f700d"
+    },
+    "test": {
+      "rows": 125,
+      "file": "test_preserved.jsonl",
+      "sha256": "ad08ba40fbde3023e6e50eedc940efd853f9b4293b48e8879160f52c14993293",
+      "note": "The existing same-question pair in Test is preserved unchanged."
+    }
+  },
+  "total_split_rows": {
+    "train": 430,
+    "validation": 63,
+    "test": 125
+  },
+  "notes": [
+    "This dataset is for evaluation only and must never be added to the final SFT training set.",
+    "The 430-row Train evaluation split is assembled from three mutually exclusive disposition files.",
+    "The four cross-split duplicate Train records are excluded so that Validation/Test records remain preserved."
+  ]
+}
