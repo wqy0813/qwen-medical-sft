@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "model_id": "Qwen/Qwen3.5-4B",
+  "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "model_path": "../model_assets/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "loader": "AutoProcessor",
+  "tokenizer_class": "Qwen3_5Tokenizer",
+  "transformers_version": "5.22.1",
+  "data_path": "data/processed/train/model_specific/qwen35_4b/medmcqa_train.jsonl",
+  "rows": 137928,
+  "max_length": 512,
+  "truncation": false,
+  "enable_thinking": false,
+  "lengths": {
+    "max_full_tokens": 506,
+    "max_prompt_tokens": 410,
+    "min_target_tokens": 9,
+    "overlength_count": 0,
+    "metadata_mismatch_count": 0,
+    "length_histogram": {
+      "128-255": 79217,
+      "384-512": 7166,
+      "0-127": 26304,
+      "256-383": 25241
+    },
+    "max_length_examples": [
+      {
+        "id": "MedMCQA:96214f71-a277-44d9-a66e-d4cba1555a82",
+        "full_tokens": 506,
+        "prompt_tokens": 134,
+        "target_tokens": 372
+      },
+      {
+        "id": "MedMCQA:09297191-9581-4b49-ab67-4b4df5a47be3",
+        "full_tokens": 506,
+        "prompt_tokens": 80,
+        "target_tokens": 426
+      },
+      {
+        "id": "MedMCQA:52beca06-66a5-495d-a2bf-5f9d73b57e06",
+        "full_tokens": 506,
+        "prompt_tokens": 81,
+        "target_tokens": 425
+      }
+    ]
+  },
+  "outputs": {
+    "overlength": "overlength.jsonl",
+    "metadata_mismatches": "length_mismatches.jsonl"
+  }
+}

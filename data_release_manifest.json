@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "id": "openlifescienceai/medmcqa",
+    "source_version": "download-20261022",
+    "source_snapshot_note": "The upstream repository revision was not pinned; local input files are pinned by SHA256.",
+    "training_release_ready": true
+  },
+  "split_protocol": {
+    "source_split": "official_train",
+    "raw_rows": 182822,
+    "pre_split_exclusions": {
+      "answer_conflicts": 4,
+      "duplicate_questions": 31,
+      "total": 35
+    },
+    "eligible_rows": 182787,
+    "group_key": "normalized_question",
+    "normalization": "strip; collapse consecutive whitespace; casefold",
+    "method": "grouped_random_split",
+    "validation_fraction_target": 0.05,
+    "random_seed": 20261020,
+    "random_generator": "random.Random(seed)",
+    "validation_rows": 9139,
+    "initial_train_rows": 173648,
+    "train_scope_path": "data/processed/train/medmcqa_original_train_scope_ids.jsonl",
+    "internal_validation_path": "data/processed/validation/internal_medmcqa/dev_eval.jsonl",
+    "note": "Whole normalized-question groups are shuffled and assigned together. The 9,139-row internal validation split is created before downstream training-data cleaning and length admission."
+  },
+  "active_evaluation": "dev_eval",
+  "reserved_evaluation": "reserved",
+  "artifacts": {
+    "raw.train": {
+      "path": "data/raw/medmcqa/train.parquet",
+      "role": "source_records_for_question_answer_explanation",
+      "version": "download-20261022",
+      "rows": 182822,
+      "bytes": 85899025,
+      "sha256": "b119434ba551517a6ec0ba1f7e0b4c029165ed284a4704f262ce37c791c493c5"
+    },
+    "train.common_candidate": {
+      "path": "data/processed/train/common/medmcqa_train_common_137928.jsonl",
+      "role": "shared_medmcqa_training_candidate",
+      "version": "previous-candidate-20261106",
+      "rows": 137928,
+      "bytes": 390450200,
+      "sha256": "100eacf30dd63d4fd48cc6a0257a28e2db2ba390635101022076a21c9e389d95",
+      "admission_status": "accepted_for_final_two_model_sft",
+      "shared_length_policy": "Final shared MedMCQA training cohort for Qwen2.5-3B-Instruct and Qwen3.5-4B. Both model-specific full Tokenizer/Processor preflights passed at max_length=512 with zero overlength records and truncation disabled.",
+      "length_metadata_tokenizer": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+        "max_length": 512,
+        "truncation": false
+      },
+      "source": "historical remote audit output (local-only; source file not included in this release)"
+    },
+    "dev_eval": {
+      "path": "data/processed/validation/internal_medmcqa/dev_eval.jsonl",
+      "role": "active_development_evaluation",
+      "version": "medmcqa-evaluation-split-20261022",
+      "rows": 9139,
+      "bytes": 3250228,
+      "sha256": "90ec6f46888d52499bd1906c1a45b458962b7e65e5ca8317b9286a410bf0910e"
+    },
+    "reserved": {
+      "path": "data/evaluation/medmcqa_official_validation/validation.jsonl",
+      "role": "reserved_final_evaluation_only",
+      "version": "medmcqa-evaluation-split-20261022",
+      "rows": 4183,
+      "bytes": 1518515,
+      "sha256": "2710c733da35fa98bb7c7ea97b755cb1ce741ba26cbfe015d75ab94bf2c7089b"
+    },
+    "raw.validation": {
+      "path": "data/raw/medmcqa/validation.parquet",
+      "role": "official_validation_source",
+      "version": "download-20261022",
+      "rows": 4183,
+      "bytes": 1476104,
+      "sha256": "b768a1ea34afc9f80d3106d9b21f80fa8a00ec450a1f6cd641af72ca9e591021"
+    },
+    "train_scope": {
+      "path": "data/processed/train/medmcqa_original_train_scope_ids.jsonl",
+      "role": "original_official_train_subset_membership_and_order_only",
+      "version": "project-train-subset-20261022",
+      "rows": 173648,
+      "bytes": 8161456,
+      "sha256": "69a418ca2238d36eed36aa38d7a615a70e8a282a7f272fc9329cb38e04f3154c",
+      "derived_from": {
+        "former_path": "data/processed/train_sft.jsonl",
+        "former_sha256": "5332997730228db1bb1adf9f287ca62434e557dcf7c1397ddf7b7a884f0ed99d",
+        "purpose": "Preserve original train/dev split membership and order only; no answer-only prompts or targets retained."
+      }
+    }
+  },
+  "documented_omissions": [
+    {
+      "id": "058add30-ac39-4ef0-914b-748df08b2054",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "09c3f34a-2b4e-4d25-95be-5400d3505f02",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "0d78c9c9-a7a5-497c-addd-68209caa3be3",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "1249d3ce-dade-4775-8e0c-ca016176f75e",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "13b5722c-9e03-4b55-bb4b-73d9741779b5",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "1508a7cc-e710-4c4f-9d3e-a68229ee4640",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "1de1c401-7d5d-4b7c-9e7e-099299203461",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "28c08b9b-04d4-4665-94a0-7ac7d3a321a1",
+      "reason": "conflicting_exact_prompt_answers"
+    },
+    {
+      "id": "3033a117-2395-4c78-bacb-88f13ecb0e63",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "391c6ebf-d2c8-49f7-80b9-c600368d1ce8",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "3be88403-61f0-424d-b45c-576e7a7c0614",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "3c3386eb-b6e7-48e1-8dbf-47a56602bb7c",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "49ab1094-a600-4209-bd5d-880965447cbf",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "5498b8aa-bc70-47eb-9004-e4b104acc857",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "567c5994-94ec-42c1-ad21-ebd628503741",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "668d9054-b03f-4e8b-9d36-79860c80fab9",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "703969c2-bfc5-4498-a526-9be96d4e6f22",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "761a8cc3-8cf9-4737-a55c-1391f69af678",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "8c57cb71-d58b-4284-9ed9-ddabdfb12893",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "93dcd308-669d-4704-ab9c-14e62625fe40",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "9be8289d-c49b-4c8c-a965-509afbcccf3e",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "aecf535d-b35f-47ec-954b-d4527929da6b",
+      "reason": "conflicting_exact_prompt_answers"
+    },
+    {
+      "id": "b21df900-13c6-47e4-ac19-846b55a773a9",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "b2da8c31-74e4-4964-9188-50d172637b65",
+      "reason": "conflicting_exact_prompt_answers"
+    },
+    {
+      "id": "c5038baa-8eeb-4afa-a51d-30c8e15cddbe",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "c690cbb9-8e89-4248-9468-f98b90763206",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "cd7c87c0-27de-410e-8938-9a8cad9fa8c3",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "d0ae02a9-b2b2-433b-b335-b40649939cae",
+      "reason": "conflicting_exact_prompt_answers"
+    },
+    {
+      "id": "d10aa4be-0f4f-4a7f-b40e-848cdbabc5c0",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "d6e15a23-4bdf-4e2d-ae08-796c6c6ce49a",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "d792bab7-2101-4643-bf3c-dc90e9f4ea8c",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "d8c15424-0ed5-4757-81be-2758b8475def",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "f69d68a0-8d9a-489c-95bc-0e68ca529b9d",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "f84d514c-cb8e-4e2f-942b-71bf6c6a4425",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    },
+    {
+      "id": "f9230b9c-37f1-45ae-8099-78235b9f8028",
+      "reason": "duplicate_exact_prompt_retained_under_another_id"
+    }
+  ]
+}

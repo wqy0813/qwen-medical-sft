@@ -1,0 +1,9 @@
+model,dataset,total,report_accuracy,report_correct,strict_accuracy,strict_correct,normalized_accuracy,normalized_correct,normalized_invalid_predictions,normalized_invalid_rate,source,comparability
+qwen25_base,medmcqa,4183,0.47979918718623,2007,0.3691130767391824,1544,0.47979918718623,2007,27,0.006454697585464977,reports/results/final_accuracy_results_20261117.md,MedMCQA Official Validation
+qwen25_sft,medmcqa,4183,0.5044226631604112,2110,0.4912742051159455,2055,0.5044226631604112,2110,3,0.0007171886206072197,reports/results/final_accuracy_results_20261117.md,MedMCQA Official Validation
+qwen35_base,medmcqa,4183,0.621324408319388,2599,0.621324408319388,2599,0.621324408319388,2599,1,0.0002390628735357399,reports/results/final_accuracy_results_20261117.md,MedMCQA Official Validation
+qwen35_sft,medmcqa,4183,0.6402103753287115,2678,0.6402103753287115,2678,0.6402103753287115,2678,0,0.0,reports/results/final_accuracy_results_20261117.md,MedMCQA Official Validation
+qwen25_base,medexpqa,618,0.47572815533980584,294,0.47572815533980584,294,0.47572815533980584,294,49,0.07928802588996764,reports/results/final_accuracy_results_20261117.md,MedExpQA full evaluation set
+qwen25_sft,medexpqa,618,0.5339805825242718,330,0.5339805825242718,330,0.5339805825242718,330,3,0.0048543689320388345,reports/results/final_accuracy_results_20261117.md,MedExpQA full evaluation set
+qwen35_base,medexpqa,618,0.7734627831715211,478,0.7734627831715211,478,0.7734627831715211,478,2,0.003236245954692557,reports/results/final_accuracy_results_20261117.md,MedExpQA full evaluation set
+qwen35_sft,medexpqa,618,0.7896440129449838,488,0.7896440129449838,488,0.7896440129449838,488,1,0.0016181229773462784,reports/results/final_accuracy_results_20261117.md,MedExpQA full evaluation set

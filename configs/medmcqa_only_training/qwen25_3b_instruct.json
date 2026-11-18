@@ -1,0 +1,56 @@
+{
+  "schema_version": "medmcqa-only-bf16-lora-v1",
+  "profile": "qwen25_3b",
+  "model_id": "Qwen/Qwen2.5-3B-Instruct",
+  "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+  "model_family": "qwen2_causal_lm",
+  "model_class": "Qwen2ForCausalLM",
+  "model_path_relative": "models/Qwen2.5-3B-Instruct-aa8e72537993",
+  "data_path": "data/processed/train/model_specific/qwen25_3b/medmcqa_train.jsonl",
+  "data_bytes": 378588392,
+  "rows": 137928,
+  "max_length": 512,
+  "max_full_tokens": 512,
+  "engine_class": "AutoTokenizer",
+  "tokenizer_class": "Qwen2Tokenizer",
+  "training_protocol": {
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "max_length": 512,
+    "truncation": false
+  },
+  "preflight_report_path": "configs/medmcqa_only_training/qwen25_3b_length_preflight.json",
+  "expected_transformers_version": "5.22.1",
+  "expected_torch_version": "2.6.0+cu124",
+  "expected_lora_modules": 72,
+  "output_dir": "outputs/medmcqa_only_sft_20261109/qwen25_3b_instruct",
+  "training": {
+    "method": "BF16 LoRA",
+    "precision": "bfloat16",
+    "micro_batch_size": 2,
+    "gradient_accumulation_steps": 4,
+    "effective_batch_size": 8,
+    "learning_rate": 0.00005,
+    "weight_decay": 0,
+    "epochs": 1,
+    "seed": 42,
+    "warmup_ratio": 0.03,
+    "warmup_steps": 518,
+    "scheduler": "linear",
+    "optimizer": "AdamW",
+    "gradient_checkpointing": true,
+    "lora": {
+      "r": 8,
+      "alpha": 16,
+      "dropout": 0,
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "bias": "none",
+      "task_type": "CAUSAL_LM"
+    },
+    "save_steps": 1000,
+    "truncation": false
+  }
+}

@@ -1,0 +1,20 @@
+# Local Windows development / CPU-test environment, verified with Python 3.12.14.
+# This is NOT the formal training-server environment (Python 3.11.4,
+# PyTorch 2.6.0+cu124, Transformers 5.22.1; see README.md and model configs).
+# PyTorch CUDA wheel is installed from the official PyTorch CUDA 13.0 index.
+--extra-index-url https://download.pytorch.org/whl/cu130
+
+torch==2.13.0+cu130
+numpy==2.5.2
+safetensors==0.8.0
+psutil==7.2.2
+transformers==5.20.1
+tokenizers==0.23.3
+peft==0.21.2
+bitsandbytes==0.50.2
+accelerate==1.15.0
+huggingface-hub==2.2.0
+pyarrow==26.0.0
+pandas==3.0.6
+requests==2.34.2
+urllib3==2.8.0
