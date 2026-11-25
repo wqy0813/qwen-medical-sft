@@ -249,7 +249,7 @@ def main() -> None:
 
 **Prompt 与最终 SFT 训练对齐：**从锁定的官方 Validation 题目与选项中移除旧 Answer-only 尾部指令，替换为最终训练使用的 Answer + Explanation 指令；不追加单字母限制后缀。使用 Instruct tokenizer chat template、greedy generation、max_new_tokens={MAX_NEW_TOKENS}、use_cache=True，并同时保留严格解析与规范化解析结果。对应 SFT 评估必须复用同一 Prompt、生成参数和解析器。
 
-官方 Validation 已用于此前模型选择，因此本结果不是盲测。原 2026-11-05 追加后缀版本保留为历史探索结果，不覆盖、不替换。
+本报告属于使用 Answer + Explanation 的历史匹配 Prompt 对照。2026-11-05 的追加后缀评估同属历史探索。最终发布轮次的盲测协议与成绩见 `reports/results/final_accuracy_results_20261117.md`。
 """
     (OUT / "README.md").write_text(report, encoding="utf-8")
     write("status.json", {"status": "PASS", "phase": "complete", "completed": len(rows), "pid": os.getpid(), "model_released": True})

@@ -32,11 +32,11 @@ reports/
 | `src/medical_sft/training/current_medmcqa_training.py` | 两模型共享训练运行时 |
 | `src/medical_sft/training/train_qwen25_3b_medmcqa.py`、`src/medical_sft/training/train_qwen35_4b_medmcqa.py` | 两个最终训练入口 |
 | `src/medical_sft/evaluation/medmcqa_evaluation.py`、`src/medical_sft/evaluation/medexpqa_evaluation.py` | 两个测试集的读取、评估和评分辅助 |
-| `src/medical_sft/evaluation/qwen25_instruct_baseline_matched_20261110.py` | 尚未执行推理的 Base 匹配 Prompt 准备脚本；依赖本地模型和历史输出，独立克隆后不能直接运行 |
+| `src/medical_sft/evaluation/qwen25_instruct_baseline_matched_20261110.py` | 历史探索的 Base 匹配 Prompt 对照脚本，使用 Answer + Explanation，依赖本地模型和历史输出，尚未执行推理 |
 | `scripts/plot_accuracy_comparison.py` | 从 `reports/results/final_accuracy_results_20261117.csv` 生成 MedMCQA 与 MedExpQA 准确率对比图 |
 | `scripts/plot_training_loss.py` | 读取正式训练日志并绘制 Loss 图 |
 | `scripts/run_tests.py` | 分组运行 106 项公开测试、11 项冻结数据集成测试或完整 117 项测试 |
 
-最终训练数据来自 MedMCQA 官方 Train；内部验证 9,139 条，模型专属训练文件各 137,928 条。MedMCQA 官方 Validation 4,183 条和 MedExpQA 618 条仅作独立测试。不得重新划分、重建覆盖已有数据，也不得擅自启动 GPU 训练或推理。
+最终训练数据来自 MedMCQA 官方 Train。内部验证 9,139 条，模型专属训练文件各 137,928 条。MedMCQA 官方 Validation 4,183 条和 MedExpQA 全集 618 条均用于最终盲测，两个数据集均未参与该轮模型筛选。不得重新划分、重建覆盖已有数据，也不得擅自启动 GPU 训练或推理。
 
 Qwen2.5-3B-Instruct 的正式配置使用本地快照 `models/Qwen2.5-3B-Instruct-aa8e72537993/`。项目外的同 revision 副本 `../model_assets/Qwen2.5-3B-Instruct/aa8e72537993ba99e69dfaafa59ed015b17504d1/` 仅含配置和 Tokenizer 文件。数据清单 `data_release_manifest.json` 位于项目根目录。

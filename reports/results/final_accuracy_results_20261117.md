@@ -1,17 +1,18 @@
 # 四模型准确率结果汇总（2026-11-17）
 
-本表汇总四个模型版本在 MedMCQA 和 MedExpQA 上的评估结果。README 和准确率对比图使用本表的 Normalized Accuracy。
+本表汇总四个模型版本在 MedMCQA 和 MedExpQA 上的最终盲测结果。README 和准确率对比图使用本表的 Normalized Accuracy。
 
 ## 1. 评估范围与统计口径
 
-- **MedMCQA**：官方 Validation，4,183 条。
-- **MedExpQA**：完整 618 条作为独立盲测集；上游 Train / Validation / Test 分别为 430 / 63 / 125 条，仅用于记录样本来源。618 条均未参与两个模型的 SFT 训练。
+- **MedMCQA 最终盲测集**为官方 Validation 的 4,183 条。
+- **MedExpQA 最终盲测集**为完整 618 条。上游 Train / Validation / Test 分别为 430 / 63 / 125 条，三个标签记录样本来源。
+- 最终发布轮次的模型和评估设置在盲测前确定。模型筛选使用从 MedMCQA 官方 Train 划出的 9,139 条内部验证样本，两套盲测数据均未用于该轮的模型筛选。
 - 主展示指标为 **Normalized Accuracy**，分母为全部样本数；无效答案按错误计入。
 - 结果表同时列出 Strict Accuracy、正确数和无效答案数。Qwen3.5-4B 两项 SFT 的 Normalized 正确数由表中准确率和样本总数换算。
 
 ## 2. 最终准确率
 
-### MedMCQA（4,183 条）
+### MedMCQA 官方 Validation（4,183 条最终盲测）
 
 | 模型                  | 类型   | Strict Accuracy | Normalized Accuracy | Strict 正确数 | Normalized 正确数 | 无效答案 |
 | ------------------- | ---- | --------------: | ------------------: | ---------: | -------------: | ---: |
@@ -20,7 +21,7 @@
 | Qwen3.5-4B          | Base |          62.13% |          **62.13%** |      2,599 |          2,599 |    1 |
 | Qwen3.5-4B          | SFT  |          64.02% |          **64.02%** |      2,678 |          2,678 |    0 |
 
-### MedExpQA（618 条独立盲测）
+### MedExpQA 全集（618 条最终盲测）
 
 | 模型                  | 类型   | Strict Accuracy | Normalized Accuracy | Normalized 正确数 | 无效答案 |
 | ------------------- | ---- | --------------: | ------------------: | -------------: | ---: |
@@ -53,7 +54,7 @@ Qwen2.5-3B Base 在 MedMCQA 上的 Normalized Accuracy 为 **47.98%**，即 4,18
 - 同一数据集的题目 Prompt 保持一致，各模型使用各自原生 Chat Template；
 - Normalized Accuracy 以全部样本为分母，无效答案计为错误。
 
-同一数据集的 Base / SFT 使用相同的题目 Prompt 和生成设置。MedMCQA 评估使用 Answer-only，SFT 训练使用 Answer + Explanation。MedMCQA 官方 Validation 曾用于早期模型筛选，MedExpQA 的 618 条用于独立盲测。
+同一盲测集的 Base / SFT 使用相同的题目 Prompt 和生成设置。MedMCQA 最终盲测使用 Answer-only，SFT 训练使用 Answer + Explanation。
 
 ## 6. 图表
 

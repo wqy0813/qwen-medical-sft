@@ -51,25 +51,27 @@ MedMCQA 清洗输入为 **173,683 条**，按官方 Train 的 **182,822 条**扣
 - 用途：内部验证、训练监控和模型选择。
 - 不参与梯度更新，也不属于最终测试集。
 
-## 四、两个独立测试集
+## 四、最终盲测集
 
-### 测试集一：MedMCQA 官方 Validation
+最终发布轮次在模型和评估设置确定后使用以下两套数据进行盲测。两套数据均未用于该轮模型筛选。
+
+### MedMCQA 官方 Validation
 
 - 数量：**4,183**。
 - 原始数据：`raw/medmcqa/validation.parquet`。
 - 评估副本：`evaluation/medmcqa_official_validation/validation.jsonl`。
-- 用途：最终独立测试，不是内部验证集。
+- 用途为最终盲测。
 
-### 测试集二：MedExpQA 全集
+### MedExpQA 全集
 
-MedExpQA 在本项目中只用于评估，不参与 SFT 训练。评估集共 **618** 条：
+MedExpQA 全集共 **618** 条，用于最终盲测。
 
 | 官方 split | 数量 | 组成 |
 |---|---:|---|
 | Train | 430 | 378 条长度合格候选 + 31 条超长隔离 + 21 条质量排除 |
 | Validation | 63 | 官方 Validation 保留记录 |
 | Test | 125 | 官方 Test 保留记录 |
-| **合计** | **618** | 全部纳入评估 |
+| **合计** | **618** | 全部纳入最终盲测 |
 
 评估时必须纳入 MedExpQA Train split 的全部 430 条，包括不满足训练长度或训练准入条件的记录；不能套用训练准入规则再次删除。四条跨 split 重复 Train 记录已按评估集构建规则隔离，Validation/Test 记录保持保留。
 
@@ -111,7 +113,7 @@ data/
 1. 最终训练模型只有 Qwen2.5-3B-Instruct 和 Qwen3.5-4B。
 2. 最终 SFT 训练只读取各自的 MedMCQA 模型专属训练文件。
 3. 内部验证集 9,139 条不参与梯度更新。
-4. MedMCQA 官方 Validation 4,183 条和 MedExpQA 全集 618 条是两个独立测试集。
+4. MedMCQA 官方 Validation 4,183 条和 MedExpQA 全集 618 条均用于最终盲测。
 5. MedExpQA 的任何 split 均不得加入最终 SFT 训练数据。
 6. 评估集不得套用训练集 A/B/C/D 训练准入规则再次删题。
 7. 不重新生成或重新划分现有 Train/内部验证文件；代码整理只核对路径、数量和哈希，不改动数据内容。

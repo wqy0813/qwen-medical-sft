@@ -21,13 +21,13 @@ MODEL_LABELS = {
 DATASETS = {
     "medmcqa": {
         "title": "MedMCQA Accuracy Comparison",
-        "subtitle": "Official Validation · 4,183 questions",
+        "subtitle": "Final blind test · Official Validation · 4,183 questions",
         "filename": "medmcqa_accuracy_comparison.png",
         "note": "",
     },
     "medexpqa": {
         "title": "MedExpQA Accuracy Comparison",
-        "subtitle": "Full independent blind test · 618 questions",
+        "subtitle": "Final blind test · Full dataset · 618 questions",
         "filename": "medexpqa_accuracy_comparison.png",
         "note": "",
     },

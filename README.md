@@ -2,13 +2,15 @@
 
 **基于 MedMCQA 的 Qwen 医学领域监督微调与效果评估**
 
-本项目使用 MedMCQA 医学选择题数据集，对 Qwen2.5-3B-Instruct 和 Qwen3.5-4B 两个开源指令模型进行 LoRA 监督微调（SFT），并通过 MedMCQA Official Validation 和 MedExpQA 评估模型微调前后的医学问答表现。
+本项目使用 MedMCQA 医学选择题数据集，对 Qwen2.5-3B-Instruct 和 Qwen3.5-4B 两个开源指令模型进行 LoRA 监督微调（SFT），并在 MedMCQA 官方 Validation 和 MedExpQA 全集上盲测模型微调前后的表现。
 
 项目主要关注：**在相同训练数据和核心微调方案下，不同基础模型经过医学领域 SFT 后，性能会产生怎样的变化？**
 
 ## 核心实验结果
 
-本项目完成了两个模型的训练与评估。下表使用 Normalized Accuracy，变化量按表中展示的百分比计算。完整明细见[四模型准确率结果汇总](reports/results/final_accuracy_results_20261117.md)。
+最终发布轮次使用 **MedMCQA 官方 Validation（4,183 题）**和 **MedExpQA 全集（618 题）**进行盲测，两套数据均未用于该轮模型筛选。
+
+下表使用 Normalized Accuracy，以全部题目为分母，无效答案计错。变化量按表中展示的百分比计算。完整明细见[四模型准确率结果汇总](reports/results/final_accuracy_results_20261117.md)。
 
 | 模型         | 评估数据集    | Base Accuracy | SFT Accuracy | 变化           |
 | ---------- | -------- | ------------- | ------------ | ------------ |
@@ -49,7 +51,7 @@
 
 - **医学训练数据构建：** 基于 MedMCQA 公开训练数据，实现数据规范化、答案与选项检查、重复数据处理、安全修复、异常样本隔离和 Tokenizer 长度审计，最终构建统一的医学 SFT 训练集。
 - **参数高效微调：** 采用 LoRA 对 Qwen2.5-3B-Instruct 和 Qwen3.5-4B 两个基础模型开展医学领域监督微调。
-- **多数据集评估：** 使用 MedMCQA Official Validation 和 MedExpQA 全集，对两个模型的 Base 与 SFT 版本进行统一评估。
+- **最终盲测：** 使用 MedMCQA 官方 Validation 和 MedExpQA 全集，统一评估两个模型的 Base 与 SFT 版本。
 - **实验对比与分析：** 比较模型微调前后的 Accuracy 和 Training Loss，分析不同基础模型在不同医学评估数据上的性能变化。
 
 本项目旨在探索公开医学问答数据与参数高效微调相结合的可行性，并分析不同基础模型在相同训练条件下的微调效果差异。
@@ -75,13 +77,13 @@
 
 ### 2.2 实验数据
 
-实验使用一个医学问答训练数据集和两个评估数据集：
+实验使用一个医学问答训练数据集和两个最终盲测集：
 
 |数据集|数据规模|用途|
 |---|---|---|
 |MedMCQA Official Train|182,822 条|原始训练数据来源|
-|MedMCQA Official Validation|4,183 条|最终评估|
-|MedExpQA|618 条|不同来源的医学问答评估|
+|MedMCQA 官方 Validation|4,183 条|最终盲测，同源医学问答|
+|MedExpQA 全集|618 条|最终盲测，其他来源的医学问答|
 
 两个模型使用相同的 MedMCQA 最终训练数据，MedExpQA 不参与 SFT 训练。
 
@@ -138,7 +140,7 @@
 
 ## 3. 数据集与数据处理（Data Preparation）
 
-本项目使用 **MedMCQA** 作为主要 SFT 训练数据，并使用 MedMCQA Official Validation 和 MedExpQA 对训练后的模型进行评估。
+本项目使用 **MedMCQA 官方 Train** 构建 SFT 训练数据，并使用 MedMCQA 官方 Validation 和 MedExpQA 全集进行最终盲测。
 
 本部分主要介绍数据来源、数据划分，以及原始训练数据如何经过清洗和长度检查，最终形成可用于 SFT 的训练数据。
 
@@ -148,7 +150,7 @@ MedMCQA 是本项目的主要医学问答训练数据集，包含医学领域的
 
 本项目使用其官方 Train 数据作为原始训练来源。
 
-由于官方 Test 集不公开答案标签，无法直接计算其 Accuracy，因此本项目采用官方 Validation 集作为最终可量化评估集。
+MedMCQA 官方 Test 的答案标签未公开，本项目使用带标准答案的官方 Validation 进行最终盲测。
 
 MedMCQA 清洗输入为 **173,683 条**，按官方 Train 的 **182,822 条**扣除 **9,139 条**内部验证样本计算。划分按规范化题干分组，随机种子为 `20261020`，同一题干分组整体分配到训练侧或内部验证侧。
 
@@ -160,7 +162,7 @@ MedMCQA 清洗输入为 **173,683 条**，按官方 Train 的 **182,822 条**扣
 | 清洗输入                        | 173,683          | 数据清洗与长度筛选的起始统计数量 |
 | 内部验证集                       | 9,139            | 训练监控与内部验证    |
 | 最终 SFT 训练集                  | **137,928 / 模型** | 两个模型使用相同训练数据 |
-| MedMCQA Official Validation | 4,183            | 最终评估         |
+| MedMCQA 官方 Validation     | 4,183            | 最终盲测         |
 
 #### 数据处理流程
 
@@ -253,20 +255,20 @@ MedMCQA Official Train
 
 ### 3.2 MedExpQA 数据集
 
-MedExpQA 用于最终模型评估。本项目使用其完整的 **618 条数据**。
+MedExpQA 用于最终盲测。本项目使用其完整的 **618 条数据**。
 
 |上游 split 来源|数量|本项目用途|
 |---|---|---|
 |Train|430|评估|
 |Validation|63|评估|
 |Test|125|评估|
-|**合计**|**618**|**完整评估集**|
+|**合计**|**618**|**最终盲测集**|
 
-这里的 Train / Validation / Test 是 MedExpQA 原始数据中的来源标签。本项目将三个 split 合并后作为完整评估集使用。
+这里的 Train / Validation / Test 是 MedExpQA 原始数据中的来源标签。本项目将三个 split 合并为最终盲测集。
 
 **MedExpQA 全集未参与两个模型的 SFT 训练。**
 
-与 MedMCQA 训练数据不同，MedExpQA 在本项目中仅作为最终评估数据使用，不参与 SFT 训练数据的构建，也不套用训练数据的长度准入流程。
+最终盲测保留超出训练长度限制的题目。
 
 ---
 
@@ -363,16 +365,16 @@ Base 模型与 LoRA Adapter 分开保存。评估时分别加载 Base 模型或�
 
 其中，Base 使用原始基础模型，SFT 使用对应基础模型加载 LoRA Adapter 后的版本。
 
-### 5.2 评估数据集
+### 5.2 最终盲测数据集
 
-评估使用两个医学问答数据集：
+最终发布轮次的模型与评估设置确定后，使用以下两套数据统一盲测四个模型版本：
 
 |数据集|样本数量|评估目的|
 |---|---|---|
-|MedMCQA Official Validation|4,183|评估模型在训练数据同源任务上的表现|
-|MedExpQA|618|评估模型在不同来源医学问答数据上的表现|
+|MedMCQA 官方 Validation|4,183|最终盲测，评估同源医学问答表现|
+|MedExpQA 全集|618|最终盲测，评估其他来源的医学问答表现|
 
-两个数据集均用于四个模型的统一评估。
+模型筛选使用从 MedMCQA 官方 Train 划出的 9,139 条内部验证样本。两套盲测数据均未用于最终发布轮次的模型筛选。
 
 ### 5.3 评估指标与设置
 
@@ -400,24 +402,24 @@ $$
 ---
 ## 6. 实验结果与分析（Results and Analysis）
 
-本项目分别在 MedMCQA Official Validation 和 MedExpQA 上评估四个模型，通过 Base 与 SFT 的 Accuracy 对比，分析医学领域监督微调带来的性能变化。
+最终盲测在 MedMCQA 官方 Validation 和 MedExpQA 全集上分别比较四个模型版本的准确率。
 
-### 6.1 MedMCQA 评估结果
+### 6.1 MedMCQA 最终盲测结果
 
-MedMCQA Official Validation 共包含 4,183 条样本，评估结果如下：
+MedMCQA 官方 Validation 共 4,183 题。
 
 | 模型                  | Base Accuracy | SFT Accuracy | 变化           |
 | ------------------- | ------------- | ------------ | ------------ |
 | Qwen2.5-3B-Instruct | 47.98%        | 50.44%       | **+2.46 pp** |
 | Qwen3.5-4B          | 62.13%        | 64.02%       | **+1.89 pp** |
 
-![MedMCQA Accuracy Comparison](reports/figures/accuracy/medmcqa_accuracy_comparison.png)
+![MedMCQA 官方 Validation 最终盲测准确率对比](reports/figures/accuracy/medmcqa_accuracy_comparison.png)
 
 两个模型经过 SFT 后，在 MedMCQA 上的准确率均有所提升。其中，Qwen2.5-3B-Instruct 提升 2.46 个百分点，Qwen3.5-4B 提升 1.89 个百分点。
 
-### 6.2 MedExpQA 评估结果
+### 6.2 MedExpQA 最终盲测结果
 
-MedExpQA 使用完整的 618 条样本，评估结果如下：
+MedExpQA 全集共 618 题。
 
 | 模型                  | Base Accuracy | SFT Accuracy | 变化           |
 | ------------------- | ------------- | ------------ | ------------ |
@@ -425,7 +427,7 @@ MedExpQA 使用完整的 618 条样本，评估结果如下：
 | Qwen3.5-4B          | 77.35%        | 78.96%       | **+1.61 pp** |
 
 
-![MedExpQA Accuracy Comparison](reports/figures/accuracy/medexpqa_accuracy_comparison.png)
+![MedExpQA 全集最终盲测准确率对比](reports/figures/accuracy/medexpqa_accuracy_comparison.png)
 
 在 MedExpQA 上，Qwen2.5-3B-Instruct 的准确率提升 5.83 个百分点，而 Qwen3.5-4B 的准确率提升1.61 个百分点。
 
