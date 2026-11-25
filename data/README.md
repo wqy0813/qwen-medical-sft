@@ -42,6 +42,16 @@ MedMCQA 清洗输入为 **173,683 条**，按官方 Train 的 **182,822 条**扣
 
 按清洗输入统计，清洗和长度筛选共剔除 **35,755 条**（`173,683 − 137,928`）。
 
+### 清洗规则和训练准入
+
+1. **文本规范化。** 对题干、选项和解释使用 Unicode NFKC、空白合并和 `casefold`，生成用于一致性校验和重复判定的文本。
+2. **答案与选项。** 将原始标准答案解析为 `A`–`D`，检查答案与选项的一致性。选项异常或解释缺失的记录进入隔离。
+3. **精确去重。** 对规范化字段做精确匹配，完整重复的记录只保留一条。同题、同选项、同答案但解释不同的记录可以保留。同题同选项出现不同答案时隔离冲突记录。
+4. **修复与隔离。** 按确定性规则修复空白、格式等问题，保留原始 Gold Answer 与医学解释依据。需要猜测答案或补写解释的记录隔离。
+5. **长度检查。** 用各模型实际的 Tokenizer / Processor 检查完整训练消息的长度。超过 512 Tokens 的样本排除，候选文本保持完整。
+
+清洗规则和构建入口见 [MedMCQA 清洗规则](../src/medical_sft/data/medmcqa_final_rules.py) 与 [数据构建脚本](../src/medical_sft/data/build_medmcqa_final.py)。
+
 ## 三、内部验证集
 
 - 路径：`processed/validation/internal_medmcqa/dev_eval.jsonl`
@@ -61,6 +71,7 @@ MedMCQA 清洗输入为 **173,683 条**，按官方 Train 的 **182,822 条**扣
 - 原始数据：`raw/medmcqa/validation.parquet`。
 - 评估副本：`evaluation/medmcqa_official_validation/validation.jsonl`。
 - 用途为最终盲测。
+- MedMCQA 官方 Test 的答案标签未公开，使用带标准答案的官方 Validation 计算准确率。
 
 ### MedExpQA 全集
 

@@ -39,6 +39,8 @@
 | Qwen2.5-3B-Instruct | +2.46 pp | +5.83 pp |
 | Qwen3.5-4B | +1.89 pp | +1.61 pp |
 
+Qwen2.5-3B-Instruct 在 MedExpQA 上的无效答案由 49 条降至 3 条。
+
 ## 4. Qwen2.5-3B Base 的 MedMCQA 口径
 
 Qwen2.5-3B Base 在 MedMCQA 上的 Normalized Accuracy 为 **47.98%**，即 4,183 道题中答对 2,007 道。
@@ -58,10 +60,15 @@ Qwen2.5-3B Base 在 MedMCQA 上的 Normalized Accuracy 为 **47.98%**，即 4,18
 
 ## 6. 图表
 
-以下为 README 引用的准确率对比图。
+### 最终盲测准确率
 
 - [MedMCQA 准确率对比](../figures/accuracy/medmcqa_accuracy_comparison.png)
 - [MedExpQA 准确率对比](../figures/accuracy/medexpqa_accuracy_comparison.png)
+
+### 训练损失
+
+- **Qwen2.5-3B-Instruct** 的前两个 500 Step 区间平均 Loss 从约 2.23 降至 1.94，中后期 100 Step 移动平均逐渐稳定在 1.85 附近。[逐 Step 曲线](../figures/training_loss/qwen25_3b_loss_compact.png) · [500 Step 区间趋势](../figures/training_loss/qwen25_3b_loss_500step.png)
+- **Qwen3.5-4B** 的前两个 500 Step 区间平均 Loss 从约 2.01 降至 1.81，后期区间平均 Loss 在 1.70 附近波动。[逐 Step 曲线](../figures/training_loss/qwen35_4b_loss_compact.png) · [500 Step 区间趋势](../figures/training_loss/qwen35_4b_loss_500step.png)
 
 ## 7. 结果下载
 
