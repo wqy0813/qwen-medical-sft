@@ -1,6 +1,6 @@
 # Qwen Medical SFT
 
-使用同一批 **137,928 条 MedMCQA 样本**对 Qwen2.5-3B-Instruct 和 Qwen3.5-4B 分别进行 LoRA 监督微调，比较两款模型各自微调前后的医学选择题表现。
+比较 Qwen2.5-3B-Instruct 和 Qwen3.5-4B 在 MedMCQA 医学选择题上做 LoRA 监督微调前后的表现。[试用 Qwen2.5](#试用-qwen25)
 
 ## 最终盲测结果
 
@@ -18,6 +18,25 @@ MedMCQA 使用官方 Validation（4,183 题），MedExpQA 使用全集（618 题
 [完整成绩与评估配置](reports/results/final_accuracy_results_20261117.md) · [结果 CSV](reports/results/final_accuracy_results_20261117.csv)
 
 ## 快速开始
+
+### 试用 Qwen2.5
+
+**Built with Qwen**。用同一道医学选择题依次查看基座模型和加载最后一步 LoRA 适配器后的原始回答。默认示例使用英文四选一题。
+
+```bash
+git clone https://github.com/wqy0813/qwen-medical-sft.git
+cd qwen-medical-sft
+python -m pip install torch "transformers==5.20.1" "peft==0.21.2"
+python scripts/try_qwen25.py
+```
+
+首次运行从 Hugging Face 下载指定版本的基座权重（约 6.2 GB），后续运行使用缓存。脚本优先使用 CUDA，也支持 CPU。适配器随仓库提供，供非商业研究与评估使用。[适配器与许可](release/qwen25-3b-final-lora/)
+
+使用自己的英文题目时，按顺序提供四个或五个选项。已有该版本基座的本地副本时，可加 `--base-dir 路径` 离线运行。
+
+```bash
+python scripts/try_qwen25.py --question "Which blood cells carry oxygen?" --options "Platelets" "Red blood cells" "Neutrophils" "Lymphocytes"
+```
 
 ### 重绘准确率图
 
