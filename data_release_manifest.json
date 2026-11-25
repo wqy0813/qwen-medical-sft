@@ -22,10 +22,11 @@
     "random_seed": 20261020,
     "random_generator": "random.Random(seed)",
     "validation_rows": 9139,
-    "initial_train_rows": 173648,
+    "cleaning_input_rows": 173683,
+    "frozen_train_scope_rows": 173648,
     "train_scope_path": "data/processed/train/medmcqa_original_train_scope_ids.jsonl",
     "internal_validation_path": "data/processed/validation/internal_medmcqa/dev_eval.jsonl",
-    "note": "Whole normalized-question groups are shuffled and assigned together. The 9,139-row internal validation split is created before downstream training-data cleaning and length admission."
+    "note": "Cleaning input counts official Train rows minus internal validation rows and includes the 35 pre-split exclusions. The frozen Train-scope ID file records membership after those exclusions. Whole normalized-question groups are shuffled and assigned together. The 9,139-row internal validation split is created before downstream training-data cleaning and length admission."
   },
   "active_evaluation": "dev_eval",
   "reserved_evaluation": "reserved",

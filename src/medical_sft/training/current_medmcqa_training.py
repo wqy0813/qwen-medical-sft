@@ -55,8 +55,9 @@ def load_initial_train_scope_ids() -> tuple[set[str], dict[str, Any]]:
     split = release.get("split_protocol", {})
     artifact = release.get("artifacts", {}).get("train_scope", {})
     relative_path = "data/processed/train/medmcqa_original_train_scope_ids.jsonl"
+    frozen_scope_rows = split.get("frozen_train_scope_rows", split.get("initial_train_rows"))
     if (
-        split.get("initial_train_rows") != 173_648
+        frozen_scope_rows != 173_648
         or split.get("train_scope_path") != relative_path
         or artifact.get("path") != relative_path
         or artifact.get("rows") != 173_648
@@ -444,13 +445,15 @@ def verify_evaluation_protocol() -> dict[str, Any]:
         "random_seed": 20261020,
         "random_generator": "random.Random(seed)",
         "validation_rows": 9_139,
-        "initial_train_rows": 173_648,
         "train_scope_path": "data/processed/train/medmcqa_original_train_scope_ids.jsonl",
         "internal_validation_path": "data/processed/validation/internal_medmcqa/dev_eval.jsonl",
     }
     for key, expected in expected_split.items():
         if split.get(key) != expected:
             raise ValueError(f"MedMCQA Train/validation split protocol mismatch: {key}")
+    cleaning_input_rows = expected_split["raw_rows"] - expected_split["validation_rows"]
+    if split.get("cleaning_input_rows", cleaning_input_rows) != cleaning_input_rows:
+        raise ValueError("MedMCQA cleaning input count mismatch")
 
     internal_rows, internal_info = load_evaluation("dev", root=ROOT)
     official_rows, official_info = load_evaluation("validation", root=ROOT)
