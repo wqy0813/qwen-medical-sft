@@ -4,7 +4,7 @@
 
 **GitHub 发布范围：** 为避免上传约 3.5 GB 的本地数据正文，原始数据、训练 JSONL、内部验证集和大部分评估 JSONL 均不纳入 Git。公开仓库只保留目录说明、Manifest 和空目录标记。克隆仓库后需从官方数据源或受控的数据备份恢复文件到下列路径，并按 Manifest 核对 SHA256；没有恢复数据文件时，完整数据验收、训练预检和评估测试无法运行。
 
-**测试分组：** 安装开发依赖后，可先运行 `python scripts/run_tests.py public`，执行 106 项不依赖冻结数据正文的测试。恢复本文件所列冻结数据后，再运行 `python scripts/run_tests.py data` 执行 11 项数据集成测试；`python scripts/run_tests.py all` 运行完整 117 项。测试不需要恢复模型权重或 `outputs/`。
+**测试分组。** `python scripts/run_tests.py public` 执行 106 项公开测试。恢复本文件所列冻结数据后，可用 `python scripts/run_tests.py data` 执行 11 项数据集成测试，或用 `python scripts/run_tests.py all` 执行完整 117 项。测试无需模型权重或 `outputs/`。[依赖安装与公开测试](../README.md#运行公开测试)
 
 ## 一、MedMCQA 官方 Train：初始划分
 

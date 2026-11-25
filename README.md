@@ -19,6 +19,8 @@ MedMCQA 使用官方 Validation（4,183 题），MedExpQA 使用全集（618 题
 
 ## 快速开始
 
+### 重绘准确率图
+
 使用仓库自带的成绩 CSV 在 CPU 上重绘两张准确率对比图。
 
 ```bash
@@ -29,6 +31,20 @@ python scripts/plot_accuracy_comparison.py
 ```
 
 生成的图位于 [`reports/figures/accuracy/`](reports/figures/accuracy/)。
+
+### 运行公开测试
+
+106 项公开测试可在 CPU 上运行，无需下载模型权重或恢复冻结数据。在仓库根目录使用 Python 3.12。下面的命令使用 Windows PowerShell。
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+.\.venv\Scripts\python.exe -m pip install numpy transformers pyarrow
+.\.venv\Scripts\python.exe -m pip install -e .
+.\.venv\Scripts\python.exe scripts/run_tests.py public
+```
+
+在 Linux 和 macOS 上，虚拟环境的解释器路径为 `.venv/bin/python`。按平台选择 CPU 版 PyTorch 的安装命令。[PyTorch 官方安装说明](https://pytorch.org/get-started/locally/)
 
 ## 实验资料
 
