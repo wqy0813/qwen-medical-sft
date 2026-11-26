@@ -17,6 +17,8 @@ MedMCQA 使用官方 Validation（4,183 题），MedExpQA 使用全集（618 题
 
 [完整成绩与评估配置](reports/results/final_accuracy_results_20261117.md) · [结果 CSV](reports/results/final_accuracy_results_20261117.csv)
 
+**复用 Qwen2.5 的实验成果** · [用自己的题试用微调模型](#试用-qwen25) · [下载逐题预测并复算盲测成绩](release/qwen25-medexpqa/)
+
 ## 快速开始
 
 ### 试用 Qwen2.5
@@ -36,6 +38,14 @@ python scripts/try_qwen25.py
 
 ```bash
 python scripts/try_qwen25.py --question "Which blood cells carry oxygen?" --options "Platelets" "Red blood cells" "Neutrophils" "Lymphocytes"
+```
+
+### 复算 Qwen2.5 的 MedExpQA 成绩
+
+克隆后，用仓库提供的 618 对原始回答在 CPU 上复算成绩，并导出微调前后答题结果改变的题目。直接运行 Python 即可。[预测文件与评测设置](release/qwen25-medexpqa/)
+
+```bash
+python scripts/rescore_qwen25_medexpqa.py --changes qwen25-medexpqa-changes.csv
 ```
 
 ### 重绘准确率图

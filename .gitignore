@@ -83,6 +83,7 @@ adapter_config.json
 adapter_model.*
 !/release/qwen25-3b-final-lora/adapter_config.json
 !/release/qwen25-3b-final-lora/adapter_model.safetensors
+!/release/qwen25-medexpqa/predictions.jsonl
 checkpoint-*/
 checkpoint_*/
 

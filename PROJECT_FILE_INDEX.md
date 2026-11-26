@@ -37,7 +37,7 @@ reports/
 | `scripts/plot_training_loss.py` | 读取正式训练日志并绘制 Loss 图 |
 | `scripts/run_tests.py` | 分组运行 106 项公开测试、11 项冻结数据集成测试或完整 117 项测试 |
 
-最终训练数据来自 MedMCQA 官方 Train。内部验证 9,139 条，模型专属训练文件各 137,928 条。MedMCQA 官方 Validation 4,183 条和 MedExpQA 全集 618 条均用于最终盲测，两个数据集均未参与该轮模型筛选。不得重新划分、重建覆盖已有数据，也不得擅自启动 GPU 训练或推理。
+最终训练数据来自 MedMCQA 官方 Train。内部验证 9,139 条，模型专属训练文件各 137,928 条。MedMCQA 官方 Validation 4,183 条和 MedExpQA 全集 618 条均用于最终盲测，两个数据集均未参与该轮模型筛选。
 
 Qwen2.5-3B-Instruct 的正式配置使用本地快照 `models/Qwen2.5-3B-Instruct-aa8e72537993/`。项目外的同 revision 副本 `../model_assets/Qwen2.5-3B-Instruct/aa8e72537993ba99e69dfaafa59ed015b17504d1/` 仅含配置和 Tokenizer 文件。数据清单 `data_release_manifest.json` 位于项目根目录。
 
