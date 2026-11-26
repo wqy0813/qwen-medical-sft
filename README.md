@@ -17,7 +17,7 @@ MedMCQA 使用官方 Validation（4,183 题），MedExpQA 使用全集（618 题
 
 [完整成绩与评估配置](reports/results/final_accuracy_results_20261117.md) · [结果 CSV](reports/results/final_accuracy_results_20261117.csv)
 
-**复用 Qwen2.5 的实验成果** · [用自己的题试用微调模型](#试用-qwen25) · [下载逐题预测并复算盲测成绩](release/qwen25-medexpqa/)
+**复用 Qwen2.5 的实验成果** · [在线逐题对比](https://wqy0813.github.io/qwen-medical-sft/) · [用自己的题试用微调模型](#试用-qwen25) · [下载逐题预测并复算盲测成绩](release/qwen25-medexpqa/)
 
 ## 快速开始
 

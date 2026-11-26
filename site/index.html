@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="逐题查看 Qwen2.5-3B-Instruct 在 MedExpQA 上微调前后的真实回答。">
+  <title>Qwen2.5 微调前后 · MedExpQA 逐题对比</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap navigation">
+      <a class="brand" href="#top"><span aria-hidden="true">Q</span> Qwen Medical SFT</a>
+      <nav aria-label="页面导航">
+        <a href="#compare">逐题对比</a>
+        <a href="#reuse">复用成果</a>
+        <a href="https://github.com/wqy0813/qwen-medical-sft">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero" aria-labelledby="title">
+      <div class="intro">
+        <p class="eyebrow">Qwen2.5-3B-Instruct · MedExpQA</p>
+        <h1 id="title">同一道题，<br>微调前后怎么答？</h1>
+        <p class="lead">在 618 道医学选择题的盲测上，比较基座模型和加载最后一步 LoRA 后的原始回答。</p>
+        <a class="button primary" href="#compare">查看逐题结果 <span aria-hidden="true">↓</span></a>
+      </div>
+      <article class="scorecard" aria-labelledby="score-title">
+        <header>
+          <h2 id="score-title">MedExpQA 准确率</h2>
+          <span id="delta" class="delta"></span>
+        </header>
+        <div class="metric base">
+          <div><span>Base</span><strong id="base-rate">—</strong></div>
+          <div class="track" aria-hidden="true"><i id="base-bar"></i></div>
+          <small id="base-detail"></small>
+        </div>
+        <div class="metric sft">
+          <div><span>SFT</span><strong id="sft-rate">—</strong></div>
+          <div class="track" aria-hidden="true"><i id="sft-bar"></i></div>
+          <small id="sft-detail"></small>
+        </div>
+        <p class="score-note">Normalized Accuracy 以全部题目为分母，无法解析的输出计错。</p>
+      </article>
+    </section>
+
+    <section class="outcomes" aria-label="三类答题结果变化">
+      <button type="button" data-outcome="fixed" class="outcome gain">
+        <strong id="fixed-count">—</strong><span>Base 选错，SFT 选对</span><b aria-hidden="true">↘</b>
+      </button>
+      <button type="button" data-outcome="format" class="outcome format">
+        <strong id="format-count">—</strong><span>Base 无法解析，SFT 选对</span><b aria-hidden="true">↘</b>
+      </button>
+      <button type="button" data-outcome="regressed" class="outcome loss">
+        <strong id="regressed-count">—</strong><span>Base 答对，SFT 未答对</span><b aria-hidden="true">↘</b>
+      </button>
+    </section>
+
+    <section class="compare section" id="compare" aria-labelledby="compare-title">
+      <h2 id="compare-title">逐题对比</h2>
+      <p>点上方任一种变化查看案例，或在下面输入题目 ID。</p>
+      <div id="load-error" class="panel" role="alert" hidden>预测数据加载失败。<a href="https://github.com/wqy0813/qwen-medical-sft/tree/main/release/qwen25-medexpqa">在 GitHub 查看预测文件</a>。</div>
+      <noscript>启用 JavaScript 后可筛选题目。<a href="https://github.com/wqy0813/qwen-medical-sft/tree/main/release/qwen25-medexpqa">查看预测文件</a>。</noscript>
+      <div id="explorer" class="explorer" hidden>
+        <div class="filters">
+          <label>答题变化
+            <select id="outcome-filter">
+              <option value="all">所有题目</option>
+              <option value="fixed">Base 选错，SFT 选对</option>
+              <option value="format">Base 无法解析，SFT 选对</option>
+              <option value="regressed">Base 答对，SFT 未答对</option>
+              <option value="both_correct">两次都答对</option>
+              <option value="both_missed">两次都未答对</option>
+            </select>
+          </label>
+          <label>按题目 ID 查找
+            <input id="query" type="search" inputmode="numeric" autocomplete="off" placeholder="例如 416">
+          </label>
+        </div>
+        <div class="case-layout">
+          <aside class="panel topics" aria-label="题目列表">
+            <h3 id="match-count" aria-live="polite"></h3>
+            <div id="question-list"></div>
+            <div class="pager">
+              <button id="previous" type="button" aria-label="上一页">←</button>
+              <span id="page-number"></span>
+              <button id="next" type="button" aria-label="下一页">→</button>
+            </div>
+          </aside>
+          <article class="panel case" id="detail" aria-live="polite"></article>
+        </div>
+        <details class="rubric">
+          <summary>程序如何判分？</summary>
+          <p>评分器读取单个有效选项字母，也接受 <code>Answer: X</code>。大小写、空白和句尾的一个句点可归一化。输出包含选项正文或无法唯一读取选项时，按无效输出计错。</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section reuse" id="reuse" aria-labelledby="reuse-title">
+      <h2 id="reuse-title">复用实验成果</h2>
+      <div class="reuse-grid">
+        <article>
+          <h3>试用最后一步 LoRA</h3>
+          <p>输入自己的英文选择题，查看加载适配器前后的原始回答。</p>
+          <a class="button" href="https://github.com/wqy0813/qwen-medical-sft#试用-qwen25">查看模型试用命令 ↗</a>
+        </article>
+        <article>
+          <h3>用原始预测复算成绩</h3>
+          <p>使用 618 对公开回答和评分脚本，在 CPU 上重算准确率并导出变化题目。</p>
+          <a class="button" href="https://github.com/wqy0813/qwen-medical-sft/tree/main/release/qwen25-medexpqa">获取预测与评分命令 ↗</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <p>Built with Qwen</p>
+    <p>英文题目节选及标准答案来自 Alonso、Oronoz、Agerri 的 MedExpQA。上游数据采用 CC BY 4.0。<a href="https://huggingface.co/datasets/HiTZ/MedExpQA/tree/78b57699763e00e38acd550f28de24d8a65f1643">数据快照</a> · <a href="https://doi.org/10.1016/j.artmed.2024.102938">论文</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></p>
+  </footer>
+</body>
+</html>

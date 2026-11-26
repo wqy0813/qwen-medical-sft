@@ -1,0 +1,35 @@
+[
+  {
+    "id": 416,
+    "question": "A 78-year-old woman with dementia and institutionalized is brought in by her caregivers for significant abdominal pain with deterioration of general condition and abdominal distension. CBC shows leukocytosis, elevated hematocrit, renal failure and metabolic acidosis. ECG shows atrial fibrillation. Abdominal tomography shows edematous small bowel loops, with intestinal and portal accumulation. The most probable diagnosis is:",
+    "options": {
+      "A": "Perforation of gastric or duodenal ulcus.",
+      "B": "Biliary leak.",
+      "C": "Obstructive neoplasm of the sigma with perforation.",
+      "D": "Mesenteric ischemia."
+    },
+    "gold": "D"
+  },
+  {
+    "id": 506,
+    "question": "Faced with sudden-onset obsessive-compulsive disorder (OCD) in a 9-year-old boy who also presents with tics and chorea as neurological manifestations, infection by:",
+    "options": {
+      "A": "Streptococcus viridans.",
+      "B": "Alpha-hemolytic streptococcus.",
+      "C": "Beta-hemolytic streptococcus, group A.",
+      "D": "Enterococcus."
+    },
+    "gold": "C"
+  },
+  {
+    "id": 422,
+    "question": "What is the treatment of choice for a 38-year-old man diagnosed with Cushing's disease in relation to a pituitary macroadenoma of 22 mm in diameter?",
+    "options": {
+      "A": "Initially try medical treatment and, if not effective, resort to surgery.",
+      "B": "Adrenalectomy.",
+      "C": "Selective surgical resection of the adenoma.",
+      "D": "Radiotherapy to try to reduce tumor size."
+    },
+    "gold": "C"
+  }
+]
