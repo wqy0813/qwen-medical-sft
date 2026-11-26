@@ -40,3 +40,17 @@ reports/
 最终训练数据来自 MedMCQA 官方 Train。内部验证 9,139 条，模型专属训练文件各 137,928 条。MedMCQA 官方 Validation 4,183 条和 MedExpQA 全集 618 条均用于最终盲测，两个数据集均未参与该轮模型筛选。不得重新划分、重建覆盖已有数据，也不得擅自启动 GPU 训练或推理。
 
 Qwen2.5-3B-Instruct 的正式配置使用本地快照 `models/Qwen2.5-3B-Instruct-aa8e72537993/`。项目外的同 revision 副本 `../model_assets/Qwen2.5-3B-Instruct/aa8e72537993ba99e69dfaafa59ed015b17504d1/` 仅含配置和 Tokenizer 文件。数据清单 `data_release_manifest.json` 位于项目根目录。
+
+## 运行代码测试
+
+修改数据清洗、答案解析或命令行入口后，可运行 `public` 测试组检查这些功能。它包含 106 项测试，使用 CPU 和测试样例。以下命令在仓库根目录运行，使用 Python 3.12 和 Windows PowerShell。
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+.\.venv\Scripts\python.exe -m pip install numpy transformers pyarrow
+.\.venv\Scripts\python.exe -m pip install -e .
+.\.venv\Scripts\python.exe scripts/run_tests.py public
+```
+
+在 Linux 和 macOS 上，虚拟环境的解释器路径为 `.venv/bin/python`。按平台选择 CPU 版 PyTorch 的安装命令。[PyTorch 官方安装说明](https://pytorch.org/get-started/locally/)
