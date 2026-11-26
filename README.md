@@ -21,7 +21,7 @@ MedMCQA 使用官方 Validation（4,183 题），MedExpQA 使用全集（618 题
 
 ### 试用 Qwen2.5
 
-**Built with Qwen**。用同一道医学选择题依次查看基座模型和加载最后一步 LoRA 适配器后的原始回答。默认示例使用英文四选一题。
+**Built with Qwen**。用同一道医学选择题依次查看基座模型和加载最后一步 LoRA 适配器后的原始回答。默认沿用训练提示词，请模型给出选项（`Answer`）和简短英文解释（`Explanation`）。加 `--answer-only` 可切换到盲测时使用的单行作答提示词。
 
 ```bash
 git clone https://github.com/wqy0813/qwen-medical-sft.git

@@ -1,10 +1,15 @@
 """Compare Qwen2.5-3B-Instruct before and after loading the final LoRA adapter."""
 import argparse
 import json
+import sys
 from pathlib import Path
 
 
-ADAPTER = Path(__file__).resolve().parents[1] / "release" / "qwen25-3b-final-lora"
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from medical_sft.data.medmcqa_training_contract import INSTRUCTION
+
+ADAPTER = ROOT / "release" / "qwen25-3b-final-lora"
 
 
 def main():
@@ -12,6 +17,7 @@ def main():
     parser.add_argument("--question", help="English multiple-choice question")
     parser.add_argument("--options", nargs="+", help="Four or five options in order")
     parser.add_argument("--base-dir", type=Path, help="Local copy of the pinned base model")
+    parser.add_argument("--answer-only", action="store_true", help="Use the one-line evaluation prompt")
     parser.add_argument("--device", choices=("cpu", "cuda"), help="Default: CUDA if available, else CPU")
     args = parser.parse_args()
     if (args.question is None) != (args.options is None):
@@ -37,7 +43,12 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(source, **load_options)
     model = AutoModelForCausalLM.from_pretrained(source, dtype=dtype, **load_options).to(device).eval()
     choices = [f"{letter}. {option}" for letter, option in zip("ABCDE", options)]
-    prompt = "\n".join([question, *choices, "Return exactly one line in the format: Answer: X"])
+    instruction = INSTRUCTION
+    max_new_tokens = 512
+    if args.answer_only:
+        instruction = "Return exactly one line in the format: Answer: X"
+        max_new_tokens = 32
+    prompt = "\n".join([question, *choices, instruction])
     inputs = tokenizer.apply_chat_template(
         [{"role": "user", "content": prompt}], tokenize=True, add_generation_prompt=True,
         return_dict=True, return_tensors="pt",
@@ -45,7 +56,7 @@ def main():
 
     def answer(active_model):
         with torch.inference_mode():
-            ids = active_model.generate(**inputs, do_sample=False, max_new_tokens=32, use_cache=True)
+            ids = active_model.generate(**inputs, do_sample=False, max_new_tokens=max_new_tokens, use_cache=True)
         return tokenizer.decode(ids[0, inputs["input_ids"].shape[1]:], skip_special_tokens=True).strip()
 
     print("\n".join([question, *choices]), flush=True)
